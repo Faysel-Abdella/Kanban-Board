@@ -13,28 +13,28 @@
       <h1 class="header-text">Kanban Board</h1>
       <h2 class="sub-header">Do your best!</h2>
     </header>
-    <div class="container">
+    <main class="container">
       <div class="sub-container">
-        <h2 class="title not-started">Not Started</h2>
+        <h3 class="title not-started">Not Started</h3>
+        <form class="form" id="form">
+          <input type="text" placeholder="Task 01" />
+        </form>
+        <button class="add-btn">+Add</button>
+      </div>
+      <div class="sub-container">
+        <h3 class="title in-progress">In Progress</h3>
         <form class="form" id="form">
           <input type="text" />
         </form>
         <button class="add-btn">+Add</button>
       </div>
       <div class="sub-container">
-        <h2 class="title in-progress">In Progress</h2>
+        <h3 class="title completed">Completed</h3>
         <form class="form" id="form">
           <input type="text" />
         </form>
         <button class="add-btn">+Add</button>
       </div>
-      <div class="sub-container">
-        <h2 class="title completed>Completed</h2>
-        <form class="form" id="form">
-          <input type="text" />
-        </form>
-        <button class="add-btn">+Add</button>
-      </div>
-    </div>
+    </main>
   </body>
 </html>
