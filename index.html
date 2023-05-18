@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
     <title>Kanban Board - Do your best</title>
@@ -17,21 +21,41 @@
       <div class="sub-container" id="not-started">
         <h3 class="title not-started">Not Started</h3>
         <form class="form" id="form">
-          <input type="text" placeholder="Task 01" />
+          <input type="text" placeholder="New task" />
+          <button class="inside-btn edit-btn" id="edit-btn">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="inside-btn delete-btn" id="delete-btn">
+            <i class="fa fa-trash"></i>
+          </button>
         </form>
         <button class="add-btn">+Add</button>
       </div>
+
       <div class="sub-container" id="in-progress">
         <h3 class="title in-progress">In Progress</h3>
         <form class="form" id="form">
-          <input type="text" />
+          <input type="text" placeholder="New task" />
+          <button class="inside-btn edit-btn" id="edit-btn">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="inside-btn delete-btn" id="delete-btn">
+            <i class="fa fa-trash"></i>
+          </button>
         </form>
         <button class="add-btn">+Add</button>
       </div>
-      <div class="sub-container" id="completed"">
+
+      <div class="sub-container" id="completed">
         <h3 class="title completed">Completed</h3>
         <form class="form" id="form">
-          <input type="text" />
+          <input type="text" placeholder="New task" />
+          <button class="inside-btn edit-btn" id="edit-btn">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="inside-btn delete-btn" id="delete-btn">
+            <i class="fa fa-trash"></i>
+          </button>
         </form>
         <button class="add-btn">+Add</button>
       </div>
