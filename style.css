@@ -38,28 +38,42 @@ body {
   gap: 54px;
 }
 
+.sub-container {
+  width: 120%;
+}
+
 .title {
+  font-size: 24px;
   margin-bottom: 16px;
 }
 
 .form input {
-  padding: 5px;
+  width: 100%;
+  padding: 10px;
   border: none;
   border-radius: 4px;
-  margin: 6px 0;
+  margin: 5px 0;
 }
 
 .form input::placeholder {
+  font-size: 16px;
   margin-left: 3px;
   color: #000;
   padding: 5px;
 }
 
+/* Add button */
 .add-btn {
   background-color: #00866d;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
+  border-radius: 4px;
+
   color: #fff;
   width: 100%;
-  padding: 5px;
+  padding: 7px;
+}
+
+.add-btn:hover {
+  cursor: pointer;
 }
