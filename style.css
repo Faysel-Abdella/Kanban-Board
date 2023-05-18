@@ -53,6 +53,7 @@ body {
 
 .form {
   display: flex;
+  /* display: block; */
 }
 .form input {
   box-shadow: 2px 2px 2px 2px #40696173;

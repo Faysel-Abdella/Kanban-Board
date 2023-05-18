@@ -22,44 +22,30 @@
     <main class="container">
       <div class="sub-container" id="not-started">
         <h3 class="title not-started">Not Started</h3>
-        <form class="form" id="form">
-          <input type="text" placeholder="New task" />
-          <button class="inside-btn edit-btn" id="edit-btn">
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button class="inside-btn delete-btn" id="delete-btn">
-            <i class="fa fa-trash"></i>
-          </button>
+        <form class="form-container" id="not-started-form">
+          <!-- <div class="form">
+            <input type="text" placeholder="New task" />
+            <button class="inside-btn edit-btn" id="edit-btn">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button class="inside-btn delete-btn" id="delete-btn">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div> -->
         </form>
-        <button class="add-btn">+Add</button>
+        <button class="add-btn" id="first-add-btn">+Add</button>
       </div>
 
       <div class="sub-container" id="in-progress">
         <h3 class="title in-progress">In Progress</h3>
-        <form class="form" id="form">
-          <input type="text" placeholder="New task" />
-          <button class="inside-btn edit-btn" id="edit-btn">
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button class="inside-btn delete-btn" id="delete-btn">
-            <i class="fa fa-trash"></i>
-          </button>
-        </form>
-        <button class="add-btn">+Add</button>
+        <form class="form-container" id="progress-form"></form>
+        <button class="add-btn" id="second-add-btn">+Add</button>
       </div>
 
       <div class="sub-container" id="completed">
         <h3 class="title completed">Completed</h3>
-        <form class="form" id="form">
-          <input type="text" placeholder="New task" />
-          <button class="inside-btn edit-btn" id="edit-btn">
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button class="inside-btn delete-btn" id="delete-btn">
-            <i class="fa fa-trash"></i>
-          </button>
-        </form>
-        <button class="add-btn">+Add</button>
+        <form class="form-container" id="complete-form"></form>
+        <button class="add-btn" id="third-add-btn">+Add</button>
       </div>
     </main>
   </body>
