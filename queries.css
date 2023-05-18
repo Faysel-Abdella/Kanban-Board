@@ -1,0 +1,55 @@
+/*  1em = 1rem = 10px */
+/****************************************/
+/* BELOW 1200px (for landscape tablets) */
+/****************************************/
+
+@media (max-width: 1030px) {
+  .form input {
+    width: 180px;
+  }
+
+  .add-btn {
+    width: 255px;
+  }
+
+  .container {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 870px) {
+  .container {
+    margin-top: 64px;
+    grid-template-columns: 1fr;
+  }
+
+  .form input {
+    width: 280px;
+  }
+
+  .add-btn {
+    width: 355px;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-text {
+    font-size: 28px;
+  }
+
+  .sub-header {
+    font-size: 22px;
+  }
+
+  .container {
+    margin-top: 46px;
+  }
+
+  .form input {
+    width: 180px;
+  }
+
+  .add-btn {
+    width: 253px;
+  }
+}

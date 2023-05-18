@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Roboto:wght@300;400;500;700;900&display=swap");
 
+html {
+  font-size: 62.5%; /* 1rem = 10px*/
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -18,7 +22,8 @@ body {
   color: #fff;
 }
 
-/* Top header  */
+/*     Top header     */
+
 .header-text {
   font-size: 46px;
   font-weight: 700;
@@ -30,7 +35,8 @@ body {
   text-shadow: 1px 1px #044e3f;
 }
 
-/* Main */
+/*     Main     */
+
 .container {
   margin-top: 82px;
   display: grid;
@@ -44,6 +50,7 @@ body {
 }
 
 /*        Form and inside button     */
+
 .form {
   display: flex;
 }
@@ -55,6 +62,7 @@ body {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   margin: 10px 0;
+  font-size: 18px;
 }
 
 .form input::placeholder {
@@ -72,7 +80,12 @@ input,
   overflow: hidden;
 }
 
+input:focus {
+  outline: none;
+}
+
 .inside-btn {
+  background-color: #fff;
   margin-left: 0;
   margin-right: 0;
   transition: all 0.1s ease;
@@ -84,12 +97,10 @@ input,
 
 .inside-btn:hover .fa-trash {
   transform: scale(1.2);
-  color: #d60505;
 }
 
 .inside-btn:hover .fa-pencil {
   transform: scale(1.2);
-  color: #12684b;
 }
 
 .delete-btn,
@@ -99,11 +110,18 @@ input,
 }
 
 .delete-btn {
+  color: #d60505;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
+.edit-btn {
+  color: #12684b;
+  border-left: 1px solid #95dad0;
+}
+
 /*           Add button             */
+
 .add-btn {
   background-color: #00866d;
   box-shadow: 2px 2px 2px 2px #365a529f;
@@ -112,6 +130,7 @@ input,
   border-radius: 4px;
   color: #fff;
   width: 290px;
+  margin-top: 5px;
   padding: 7px;
   transition: scale 0.1s ease;
 }
@@ -120,38 +139,4 @@ input,
   cursor: pointer;
   background-color: #0f8874;
   transform: scale(1.02);
-}
-
-/* Media queries  */
-@media (max-width: 750px) {
-  .sub-container {
-    width: 100%;
-  }
-}
-
-@media (max-width: 650px) {
-  .container {
-    margin-top: 32px;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .header-text {
-    font-size: 36px;
-  }
-
-  .sub-header {
-    font-size: 24px;
-  }
-
-  .title {
-    font-size: 20px;
-    margin-bottom: 2px;
-  }
-}
-
-@media (max-width: 300px) {
-  .header-text {
-    font-size: 28px;
-  }
 }
