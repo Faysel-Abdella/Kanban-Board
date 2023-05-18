@@ -77,3 +77,37 @@ body {
 .add-btn:hover {
   cursor: pointer;
 }
+
+/* Media queries  */
+@media (max-width: 750px) {
+  .sub-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+  .container {
+    margin-top: 32px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .header-text {
+    font-size: 36px;
+  }
+
+  .sub-header {
+    font-size: 24px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+}
+
+@media (max-width: 300px) {
+  .header-text {
+    font-size: 28px;
+  }
+}
