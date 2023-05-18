@@ -73,10 +73,13 @@ body {
   color: #fff;
   width: 100%;
   padding: 7px;
+  transition: scale 0.1s ease;
 }
 
 .add-btn:hover {
   cursor: pointer;
+  background-color: #0f8874;
+  transform: scale(1.02);
 }
 
 /* Media queries  */
