@@ -48,11 +48,12 @@ body {
 }
 
 .form input {
+  box-shadow: 2px 2px 2px 2px #40696173;
   width: 100%;
   padding: 10px;
   border: none;
   border-radius: 4px;
-  margin: 5px 0;
+  margin: 10px 0;
 }
 
 .form input::placeholder {
@@ -65,10 +66,10 @@ body {
 /* Add button */
 .add-btn {
   background-color: #00866d;
+  box-shadow: 2px 2px 2px 2px #365a529f;
   font-size: 16px;
   border: none;
   border-radius: 4px;
-
   color: #fff;
   width: 100%;
   padding: 7px;
