@@ -53,6 +53,8 @@ body {
 
 .form {
   display: flex;
+  margin-top: -13px;
+  margin-bottom: -13px;
   /* display: block; */
 }
 .form input {
@@ -131,7 +133,7 @@ input:focus {
   border-radius: 4px;
   color: #fff;
   width: 290px;
-  margin-top: 5px;
+  margin-top: 20px;
   padding: 7px;
   transition: scale 0.1s ease;
 }
