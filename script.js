@@ -5,7 +5,7 @@ let notStartedContainer = document.getElementById("not-started-container");
 
 const firstAddBtn = document.getElementById("first-add-btn");
 
-const deleteBtn = document.getElementById("delete-btn");
+const form = document.getElementById("form");
 
 let notStartedTasksArray = localStorage.getItem("tasks")
   ? JSON.parse(localStorage.getItem("tasks"))
@@ -70,3 +70,26 @@ function getTaskFromLocal() {
     addTaskToDOMFrom(storedTasks);
   }
 }
+
+function deleteTaskOfId(taskID) {
+  notStartedTasksArray = notStartedTasksArray.filter((task) => {
+    return task.id != taskID;
+  });
+  addTaskToLocalFrom(notStartedTasksArray);
+}
+
+// ##### EVENTS #####
+// delete button event
+notStartedContainer.addEventListener("click", (event) => {
+  if (event.target.classList.contains("in-delete-btn")) {
+    // Remove from array and loclstorag
+    deleteTaskOfId(
+      event.target.parentElement.parentElement.getAttribute("data-id")
+    );
+
+    // Remove from DOM
+    let targetedEl = event.target.parentElement.parentElement;
+
+    targetedEl.remove();
+  }
+});

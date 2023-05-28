@@ -99,12 +99,9 @@ input:focus {
   cursor: pointer;
 }
 
-.inside-btn:hover .fa-trash {
-  transform: scale(1.2);
-}
-
-.inside-btn:hover .fa-pencil {
-  transform: scale(1.2);
+.in-delete-btn:hover,
+.in-edit-btn:hover {
+  transform: scale(1.6);
 }
 
 .delete-btn,
