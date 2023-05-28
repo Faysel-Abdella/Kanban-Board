@@ -8,13 +8,24 @@ const firstAddBtn = document.getElementById("first-add-btn");
 const secondAddBtn = document.getElementById("second-add-btn");
 const thirdAddBtn = document.getElementById("third-add-btn");
 
-const form = document.getElementById("form");
+// localStorage.removeItem("notStartedStored");
+// localStorage.removeItem("inProgressStored");
+// localStorage.removeItem("CompletedStored");
 
-let notStartedTasks = [];
+let notStartedTasks =
+  localStorage.getItem("notStartedStored") !== null
+    ? JSON.parse(localStorage.getItem("notStartedStored"))
+    : [];
 
-let inProgressTasks = [];
+let inProgressTasks =
+  localStorage.getItem("inProgressStored") !== null
+    ? JSON.parse(localStorage.getItem("inProgressStored"))
+    : [];
 
-let completeTasks = [];
+let completeTasks =
+  localStorage.getItem("CompletedStored") !== null
+    ? JSON.parse(localStorage.getItem("completedStored"))
+    : [];
 
 // Add new task to desired array
 function addNewTaskToArray(whichArray) {
@@ -35,18 +46,46 @@ function addNewTaskToArray(whichArray) {
 
   const singleTask = {
     id: idForBoth,
-    value: newInput,
+    value: newInput.outerHTML,
   };
 
   whichArray.push(singleTask);
+
+  localStorage.setItem("notStartedStored", JSON.stringify(notStartedTasks));
+  localStorage.setItem("inProgressStored", JSON.stringify(inProgressTasks));
+  localStorage.setItem("CompletedStored", JSON.stringify(completeTasks));
 }
+
+console.log(notStartedTasks);
+console.log(inProgressTasks);
+console.log(completeTasks);
 
 // Add new task to DOM
 function addNewTaskToDOM(fromWhicArray, toWhichType) {
-  fromWhicArray.forEach((task) => {
-    toWhichType.appendChild(task.value);
-  });
+  toWhichType.innerHTML = "";
+  if (fromWhicArray !== null) {
+    fromWhicArray.forEach((task) => {
+      toWhichType.innerHTML += task.value;
+      // toWhichType.appendChild(task.value);
+    });
+  }
+
+  localStorage.setItem("notStartedStored", JSON.stringify(notStartedTasks));
+  localStorage.setItem("inProgressStored", JSON.stringify(inProgressTasks));
+  localStorage.setItem("CompletedStored", JSON.stringify(completeTasks));
 }
+
+function updateLocalStorage(transactions) {
+  localStorage.setItem("notStartedStored", JSON.stringify(transactions));
+}
+
+function init() {
+  addNewTaskToDOM(notStartedTasks, notStartedForm);
+  addNewTaskToDOM(inProgressTasks, progressForm);
+  addNewTaskToDOM(completeTasks, completeForm);
+}
+
+init();
 
 // Generate a random ID
 function randomID() {
@@ -83,7 +122,7 @@ thirdAddBtn.addEventListener("click", (event) => {
 // Inside delete button event
 
 container.addEventListener("click", (event) => {
-  // Remove from Dom
+  // Remove from DOM
   let targetedEl = event.target.parentElement;
   if (event.target.classList.contains("delete-btn")) {
     removeTask(targetedEl);
@@ -94,12 +133,15 @@ container.addEventListener("click", (event) => {
   notStartedTasks = notStartedTasks.filter((item) => {
     return item.id != targetedEl.id;
   });
+  localStorage.setItem("notStartedStored", JSON.stringify(notStartedTasks));
 
   inProgressTasks = inProgressTasks.filter((item) => {
     return item.id != targetedEl.id;
   });
+  localStorage.setItem("inProgressStored", JSON.stringify(inProgressTasks));
 
   completeTasks = completeTasks.filter((item) => {
     return item.id != targetedEl.id;
   });
+  localStorage.setItem("CompletedStored", JSON.stringify(completeTasks));
 });
