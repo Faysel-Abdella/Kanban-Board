@@ -2,8 +2,8 @@ let completedContainer = document.getElementById("completed-container");
 
 const thirdAddBtn = document.getElementById("third-add-btn");
 
-completedTasksArray = localStorage.getItem("comleted-tasks")
-  ? JSON.parse(localStorage.getItem("comleted-tasks"))
+completedTasksArray = localStorage.getItem("completed-tasks")
+  ? JSON.parse(localStorage.getItem("completed-tasks"))
   : [];
 
 getTaskFromLocal_3();
@@ -26,6 +26,8 @@ function addTask_3() {
   addTaskToDOMFrom_3(completedTasksArray);
   // Add to localStorage
   addTaskToLocalFrom_3(completedTasksArray);
+  // Add drag functionality for this new task
+  addDragForForm();
 }
 
 // display task in DOM
@@ -37,6 +39,8 @@ function addTaskToDOMFrom_3(completedTasksArray) {
     // Create the element
     const newTask_3 = document.createElement("div");
     newTask_3.classList.add("form");
+    newTask_3.setAttribute("draggable", true);
+
     newTask_3.setAttribute("data-id", task.id);
     let inputTxt =
       // Fill the element
@@ -109,3 +113,4 @@ completedContainer.addEventListener("click", (event) => {
     });
   }
 });
+addDragForForm();

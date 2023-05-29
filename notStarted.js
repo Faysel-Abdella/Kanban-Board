@@ -82,6 +82,7 @@ function deleteTaskOfId(taskID) {
 }
 
 // ##### DRAG AND DROP #####
+// Add isdragging class for all in-dragging form
 function addDragForForm() {
   formContainer.forEach((container) => {
     let con = container.querySelectorAll(".form");
@@ -96,23 +97,26 @@ function addDragForForm() {
     });
   });
 }
+addDragForForm();
 
-inProgressContainer.addEventListener("dragover", (e) => {
-  console.log(22);
-  e.preventDefault();
-  const bottomTask = insertAboveTask(inProgressContainer, e.clientY);
-  const currentTask = document.querySelector(".isdragging");
-  console.log(currentTask);
+// Listen to dragover and insert the elemnt in desired position
+formContainer.forEach((container) => {
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const bottomTask = insertAboveTask(container, e.clientY);
+    const currentTask = document.querySelector(".isdragging");
+    console.log(bottomTask);
 
-  if (!bottomTask) {
-    inProgressContainer.appendChild(currentTask);
-  } else {
-    inProgressContainer.insertBefore(currentTask, bottomTask);
-  }
+    if (!bottomTask) {
+      container.appendChild(currentTask);
+    } else {
+      container.insertBefore(currentTask, bottomTask);
+    }
+  });
 });
 
-const insertAboveTask = (inProgressContainer, mouseY) => {
-  const tasks = inProgressContainer.querySelectorAll(".form");
+const insertAboveTask = (container, mouseY) => {
+  const tasks = container.querySelectorAll(".form:not(.isdragging)");
 
   let closestTask = null;
   let closestOffSet = Number.NEGATIVE_INFINITY;

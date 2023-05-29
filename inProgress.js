@@ -26,6 +26,8 @@ function addTask_2() {
   addTaskToDOMFrom_2(inProgressArray);
   // Add to localStorage
   addTaskToLocalFrom_2(inProgressArray);
+  // Add drag functionality for this new task
+  addDragForForm();
 }
 
 // display task in DOM
@@ -37,6 +39,8 @@ function addTaskToDOMFrom_2(inProgressArray) {
     // Create the element
     const newTask_2 = document.createElement("div");
     newTask_2.classList.add("form");
+    newTask_2.setAttribute("draggable", true);
+
     newTask_2.setAttribute("data-id", task.id);
     let inputTxt =
       // Fill the element
@@ -109,3 +113,5 @@ inProgressContainer.addEventListener("click", (event) => {
     });
   }
 });
+
+addDragForForm();
