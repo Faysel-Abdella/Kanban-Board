@@ -1,25 +1,11 @@
-const container = document.getElementById("container");
-
 let notStartedContainer = document.getElementById("not-started-container");
-let inProgressContainer = document.getElementById("in-progress-container");
-let completed = document.getElementById("completed-container");
 
 const firstAddBtn = document.getElementById("first-add-btn");
-const secondAddBtn = document.getElementById("second-add-btn");
-const thirdAddBtn = document.getElementById("third-add-btn");
 
 let notStartedTasksArray = [];
 
 notStartedTasksArray = localStorage.getItem("not-started-tasks")
   ? JSON.parse(localStorage.getItem("not-started-tasks"))
-  : [];
-
-let inProgressTasksArray = [];
-inProgressTasksArray = localStorage.getItem("in-progress-tasks")
-  ? JSON.parse(localStorage.getItem("in-progress-tasks"))
-  : [];
-let completedTasksArray = localStorage.getItem("completed-tasks")
-  ? JSON.parse(localStorage.getItem("completed-tasks"))
   : [];
 
 getTaskFromLocal();
@@ -33,7 +19,7 @@ function addTask() {
   // Task data
   const task = {
     id: Math.floor(Math.random() * 10000),
-    title: "New Task",
+    title: "",
   };
 
   // Push to array of task
@@ -57,7 +43,7 @@ function addTaskToDOMFrom(notStartedTasksArray) {
     let inputTxt =
       // Fill the element
       (newTask.innerHTML = `
-    <input type="text"  placeholder="" value="${task.title}" readonly data-id="${task.id}"/>
+    <input type="text"  placeholder="Enter New Task.." readonly value="${task.title}" data-id="${task.id}"/>
     <button class="inside-btn edit-btn" id="edit-btn">
     <i class="fa fa-pencil in-edit-btn"></i>
     </button>
@@ -76,14 +62,6 @@ function addTaskToLocalFrom(array) {
 }
 
 function getTaskFromLocal() {
-  if (localStorage.getItem("not-started-tasks")) {
-    let storedTasks = JSON.parse(localStorage.getItem("not-started-tasks"));
-    addTaskToDOMFrom(storedTasks);
-  }
-  if (localStorage.getItem("in-progress-tasks")) {
-    let storedTasks = JSON.parse(localStorage.getItem("in-progress-tasks"));
-    addTaskToDOMFrom(storedTasks);
-  }
   if (localStorage.getItem("not-started-tasks")) {
     let storedTasks = JSON.parse(localStorage.getItem("not-started-tasks"));
     addTaskToDOMFrom(storedTasks);
@@ -133,5 +111,3 @@ notStartedContainer.addEventListener("click", (event) => {
     });
   }
 });
-
-// ************** In Progress Container *******************
