@@ -1,4 +1,7 @@
+let formContainer = document.querySelectorAll(".form-container");
+
 let notStartedContainer = document.getElementById("not-started-container");
+inProgressContainer = document.getElementById("in-progress-container");
 
 const firstAddBtn = document.getElementById("first-add-btn");
 
@@ -28,6 +31,8 @@ function addTask() {
   addTaskToDOMFrom(notStartedTasksArray);
   // Add to localStorage
   addTaskToLocalFrom(notStartedTasksArray);
+  // Add drag functionality for this new task
+  addDragForForm();
 }
 
 // display task in DOM
@@ -40,6 +45,7 @@ function addTaskToDOMFrom(notStartedTasksArray) {
     const newTask = document.createElement("div");
     newTask.classList.add("form");
     newTask.setAttribute("data-id", task.id);
+    newTask.setAttribute("draggable", true);
     let inputTxt =
       // Fill the element
       (newTask.innerHTML = `
@@ -74,6 +80,55 @@ function deleteTaskOfId(taskID) {
   });
   addTaskToLocalFrom(notStartedTasksArray);
 }
+
+// ##### DRAG AND DROP #####
+function addDragForForm() {
+  formContainer.forEach((container) => {
+    let con = container.querySelectorAll(".form");
+
+    con.forEach((draggableEl) => {
+      draggableEl.addEventListener("dragstart", () => {
+        draggableEl.classList.add("isdragging");
+      });
+      draggableEl.addEventListener("dragend", () => {
+        draggableEl.classList.remove("isdragging");
+      });
+    });
+  });
+}
+
+inProgressContainer.addEventListener("dragover", (e) => {
+  console.log(22);
+  e.preventDefault();
+  const bottomTask = insertAboveTask(inProgressContainer, e.clientY);
+  const currentTask = document.querySelector(".isdragging");
+  console.log(currentTask);
+
+  if (!bottomTask) {
+    inProgressContainer.appendChild(currentTask);
+  } else {
+    inProgressContainer.insertBefore(currentTask, bottomTask);
+  }
+});
+
+const insertAboveTask = (inProgressContainer, mouseY) => {
+  const tasks = inProgressContainer.querySelectorAll(".form");
+
+  let closestTask = null;
+  let closestOffSet = Number.NEGATIVE_INFINITY;
+
+  tasks.forEach((task) => {
+    const { top } = task.getBoundingClientRect();
+    const offSet = mouseY - top;
+    if (offSet < 0 && offSet > closestOffSet) {
+      closestOffSet = offSet;
+      closestTask = task;
+    }
+  });
+  console.log(closestTask);
+
+  return closestTask; // return the closest bottom task
+};
 
 // ##### EVENTS #####
 // delete button event

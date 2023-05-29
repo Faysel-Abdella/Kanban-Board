@@ -142,3 +142,14 @@ input:focus {
   background-color: #0f8874;
   transform: scale(1.02);
 }
+
+/* Drag and drop effects */
+.isdragging {
+  scale: 1.05;
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); */
+}
+
+.isdragging input,
+.isdragging button {
+  background: rgb(157, 153, 153);
+}
