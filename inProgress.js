@@ -1,8 +1,10 @@
+let formContainer = document.querySelectorAll(".form-container");
+
 let inProgressContainer = document.getElementById("in-progress-container");
 
 const secondAddBtn = document.getElementById("second-add-btn");
 
-inProgressArray = localStorage.getItem("in-progress-tasks")
+let inProgressArray = localStorage.getItem("in-progress-tasks")
   ? JSON.parse(localStorage.getItem("in-progress-tasks"))
   : [];
 
@@ -108,10 +110,26 @@ inProgressContainer.addEventListener("click", (event) => {
           task.title = input.value;
         }
       });
-      console.log(inProgressArray);
+
       addTaskToLocalFrom_2(inProgressArray);
     });
   }
 });
 
+// ##### DRAG AND DROP #####
+// Add isdragging class for all in-dragging form
+function addDragForForm() {
+  formContainer.forEach((container) => {
+    let con = container.querySelectorAll(".form");
+
+    con.forEach((draggableEl) => {
+      draggableEl.addEventListener("dragstart", () => {
+        draggableEl.classList.add("isdragging");
+      });
+      draggableEl.addEventListener("dragend", () => {
+        draggableEl.classList.remove("isdragging");
+      });
+    });
+  });
+}
 addDragForForm();

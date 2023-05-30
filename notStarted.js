@@ -1,14 +1,21 @@
 let formContainer = document.querySelectorAll(".form-container");
 
 let notStartedContainer = document.getElementById("not-started-container");
-inProgressContainer = document.getElementById("in-progress-container");
-
+let inProgressContainer = document.getElementById("in-progress-container");
+let completedContainer = document.getElementById("completed-container");
 const firstAddBtn = document.getElementById("first-add-btn");
 
 let notStartedTasksArray = [];
 
 notStartedTasksArray = localStorage.getItem("not-started-tasks")
   ? JSON.parse(localStorage.getItem("not-started-tasks"))
+  : [];
+
+let inProgressArray = localStorage.getItem("in-progress-tasks")
+  ? JSON.parse(localStorage.getItem("in-progress-tasks"))
+  : [];
+let completedTasksArray = localStorage.getItem("completed-tasks")
+  ? JSON.parse(localStorage.getItem("completed-tasks"))
   : [];
 
 getTaskFromLocal();
@@ -21,7 +28,7 @@ firstAddBtn.onclick = function () {
 function addTask() {
   // Task data
   const task = {
-    id: Math.floor(Math.random() * 10000),
+    id: Math.floor(Math.random() * 100),
     title: "",
   };
 
@@ -88,8 +95,12 @@ function addDragForForm() {
     let con = container.querySelectorAll(".form");
 
     con.forEach((draggableEl) => {
-      draggableEl.addEventListener("dragstart", () => {
+      draggableEl.addEventListener("dragstart", (e) => {
         draggableEl.classList.add("isdragging");
+        let title = draggableEl.getElementsByTagName("input")[0].value;
+        let id = draggableEl.getAttribute("data-id");
+        e.dataTransfer.setData("title", title);
+        e.dataTransfer.setData("id", id);
       });
       draggableEl.addEventListener("dragend", () => {
         draggableEl.classList.remove("isdragging");
@@ -99,18 +110,95 @@ function addDragForForm() {
 }
 addDragForForm();
 
-// Listen to dragover and insert the elemnt in desired position
+// Listen to dragover and insert the element at desired position
 formContainer.forEach((container) => {
   container.addEventListener("dragover", (e) => {
     e.preventDefault();
     const bottomTask = insertAboveTask(container, e.clientY);
     const currentTask = document.querySelector(".isdragging");
-    console.log(bottomTask);
 
     if (!bottomTask) {
       container.appendChild(currentTask);
     } else {
       container.insertBefore(currentTask, bottomTask);
+    }
+  });
+  container.addEventListener("drop", (e) => {
+    let theBottm = insertAboveTask(container, e.clientY);
+    console.log("theBottm", theBottm);
+    if (container.id == "in-progress-container") {
+      inProgressArray = JSON.parse(localStorage.getItem("in-progress-tasks"));
+
+      let title = e.dataTransfer.getData("title"); // title of dropped item
+      let id = e.dataTransfer.getData("id"); // id of droped item
+      let indexOfBottom;
+      let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
+      if ((theBottm !== null) & (theBottm !== 0)) {
+        indexOfBottom = inProgressArray
+          .map((e) => {
+            return e.id;
+          })
+          .indexOf(idOfBottm);
+      } else {
+        indexOfBottom = inProgressArray.length;
+      }
+
+      let droppedTask = {
+        id: id,
+        title: title,
+      };
+
+      inProgressArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
+      notStartedTasksArray = notStartedTasksArray.filter(
+        (task) => task.id != droppedTask.id
+      );
+
+      localStorage.setItem(
+        "not-started-tasks",
+        JSON.stringify(notStartedTasksArray)
+      );
+      localStorage.setItem(
+        "in-progress-tasks",
+        JSON.stringify(inProgressArray)
+      );
+    }
+
+    if (container.id == "completed-container") {
+      completedTasksArray = JSON.parse(localStorage.getItem("completed-tasks"));
+      let title = e.dataTransfer.getData("title"); // title of dropped item
+      let id = e.dataTransfer.getData("id"); // id of droped item
+
+      let indexOfBottom;
+      let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
+
+      if ((theBottm !== null) & (theBottm !== 0)) {
+        indexOfBottom = completedTasksArray
+          .map((e) => {
+            return e.id;
+          })
+          .indexOf(idOfBottm);
+      } else {
+        indexOfBottom = completedTasksArray.length;
+      }
+
+      console.log("index of bottom", indexOfBottom);
+      let droppedTask = {
+        id: id,
+        title: title,
+      };
+      completedTasksArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
+      notStartedTasksArray = notStartedTasksArray.filter(
+        (task) => task.id != droppedTask.id
+      );
+
+      localStorage.setItem(
+        "not-started-tasks",
+        JSON.stringify(notStartedTasksArray)
+      );
+      localStorage.setItem(
+        "completed-tasks",
+        JSON.stringify(completedTasksArray)
+      );
     }
   });
 });
@@ -129,7 +217,6 @@ const insertAboveTask = (container, mouseY) => {
       closestTask = task;
     }
   });
-  console.log(closestTask);
 
   return closestTask; // return the closest bottom task
 };
@@ -165,8 +252,10 @@ notStartedContainer.addEventListener("click", (event) => {
           task.title = input.value;
         }
       });
-      console.log(notStartedTasksArray);
+
       addTaskToLocalFrom(notStartedTasksArray);
     });
   }
 });
+
+console.log(completedTasksArray);
