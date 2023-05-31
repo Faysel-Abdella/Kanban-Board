@@ -56,7 +56,9 @@ function addTaskToDOMFrom(notStartedTasksArray) {
     let inputTxt =
       // Fill the element
       (newTask.innerHTML = `
-    <input type="text"  placeholder="Enter New Task.." readonly value="${task.title}" data-id="${task.id}"/>
+    <input type="text"  placeholder="Enter New Task.." readonly value="${
+      task.title
+    }" data-id="${+task.id}"/>
     <button class="inside-btn edit-btn" id="edit-btn">
     <i class="fa fa-pencil in-edit-btn"></i>
     </button>
@@ -91,116 +93,132 @@ function deleteTaskOfId(taskID) {
 // ##### DRAG AND DROP #####
 // Add isdragging class for all in-dragging form
 function addDragForForm() {
-  formContainer.forEach((container) => {
-    let con = container.querySelectorAll(".form");
+  let con = notStartedContainer.querySelectorAll(".form");
 
-    con.forEach((draggableEl) => {
-      draggableEl.addEventListener("dragstart", (e) => {
-        draggableEl.classList.add("isdragging");
-        let title = draggableEl.getElementsByTagName("input")[0].value;
-        let id = draggableEl.getAttribute("data-id");
-        e.dataTransfer.setData("title", title);
-        e.dataTransfer.setData("id", id);
-      });
-      draggableEl.addEventListener("dragend", () => {
-        draggableEl.classList.remove("isdragging");
-      });
+  con.forEach((draggableEl) => {
+    draggableEl.addEventListener("dragstart", (e) => {
+      draggableEl.classList.add("isdragging");
+      let title = draggableEl.getElementsByTagName("input")[0].value;
+      let id = draggableEl.getAttribute("data-id");
+      // console.log("dargged el parent", draggableEl.parentElement.id);
+      e.dataTransfer.setData("dragged-from", draggableEl.parentElement.id);
+      e.dataTransfer.setData("title", title);
+      e.dataTransfer.setData("id", id);
+    });
+    draggableEl.addEventListener("dragend", () => {
+      draggableEl.classList.remove("isdragging");
     });
   });
 }
 addDragForForm();
 
 // Listen to dragover and insert the element at desired position
-formContainer.forEach((container) => {
-  container.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    const bottomTask = insertAboveTask(container, e.clientY);
-    const currentTask = document.querySelector(".isdragging");
+inProgressContainer.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  const bottomTask = insertAboveTask(inProgressContainer, e.clientY);
+  const currentTask = document.querySelector(".isdragging");
 
-    if (!bottomTask) {
-      container.appendChild(currentTask);
+  if (!bottomTask) {
+    inProgressContainer.appendChild(currentTask);
+  } else {
+    inProgressContainer.insertBefore(currentTask, bottomTask);
+  }
+});
+completedContainer.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  const bottomTask = insertAboveTask(completedContainer, e.clientY);
+  const currentTask = document.querySelector(".isdragging");
+
+  if (!bottomTask) {
+    completedContainer.appendChild(currentTask);
+  } else {
+    completedContainer.insertBefore(currentTask, bottomTask);
+  }
+});
+
+inProgressContainer.addEventListener("drop", (e) => {
+  let darggedFrom = e.dataTransfer.getData("dragged-from");
+  if (darggedFrom == "not-started-container") {
+    console.log("dragged from", darggedFrom);
+    let dropedId = e.target.getAttribute("data-id");
+
+    let theBottm = insertAboveTask(inProgressContainer, e.clientY);
+    inProgressArray = JSON.parse(localStorage.getItem("in-progress-tasks"));
+
+    let title = e.dataTransfer.getData("title"); // title of dropped item
+    let id = +e.dataTransfer.getData("id"); // id of droped item
+    let indexOfBottom;
+    let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
+    if ((theBottm !== null) & (theBottm !== 0)) {
+      indexOfBottom = inProgressArray
+        .map((e) => {
+          return +e.id;
+        })
+        .indexOf(idOfBottm);
     } else {
-      container.insertBefore(currentTask, bottomTask);
-    }
-  });
-  container.addEventListener("drop", (e) => {
-    let theBottm = insertAboveTask(container, e.clientY);
-    console.log("theBottm", theBottm);
-    if (container.id == "in-progress-container") {
-      inProgressArray = JSON.parse(localStorage.getItem("in-progress-tasks"));
-
-      let title = e.dataTransfer.getData("title"); // title of dropped item
-      let id = e.dataTransfer.getData("id"); // id of droped item
-      let indexOfBottom;
-      let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
-      if ((theBottm !== null) & (theBottm !== 0)) {
-        indexOfBottom = inProgressArray
-          .map((e) => {
-            return e.id;
-          })
-          .indexOf(idOfBottm);
-      } else {
-        indexOfBottom = inProgressArray.length;
-      }
-
-      let droppedTask = {
-        id: id,
-        title: title,
-      };
-
-      inProgressArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
-      notStartedTasksArray = notStartedTasksArray.filter(
-        (task) => task.id != droppedTask.id
-      );
-
-      localStorage.setItem(
-        "not-started-tasks",
-        JSON.stringify(notStartedTasksArray)
-      );
-      localStorage.setItem(
-        "in-progress-tasks",
-        JSON.stringify(inProgressArray)
-      );
+      indexOfBottom = inProgressArray.length;
     }
 
-    if (container.id == "completed-container") {
-      completedTasksArray = JSON.parse(localStorage.getItem("completed-tasks"));
-      let title = e.dataTransfer.getData("title"); // title of dropped item
-      let id = e.dataTransfer.getData("id"); // id of droped item
+    let droppedTask = {
+      id: +id,
+      title: title,
+    };
 
-      let indexOfBottom;
-      let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
+    inProgressArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
+    notStartedTasksArray = notStartedTasksArray.filter(
+      (task) => task.id != droppedTask.id
+    );
 
-      if ((theBottm !== null) & (theBottm !== 0)) {
-        indexOfBottom = completedTasksArray
-          .map((e) => {
-            return e.id;
-          })
-          .indexOf(idOfBottm);
-      } else {
-        indexOfBottom = completedTasksArray.length;
-      }
+    localStorage.setItem(
+      "not-started-tasks",
+      JSON.stringify(notStartedTasksArray)
+    );
+    localStorage.setItem("in-progress-tasks", JSON.stringify(inProgressArray));
+  }
+});
 
-      console.log("index of bottom", indexOfBottom);
-      let droppedTask = {
-        id: id,
-        title: title,
-      };
-      completedTasksArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
-      notStartedTasksArray = notStartedTasksArray.filter(
-        (task) => task.id != droppedTask.id
-      );
+completedContainer.addEventListener("drop", (e) => {
+  let darggedFrom = e.dataTransfer.getData("dragged-from");
+  if (darggedFrom == "not-started-container") {
+    console.log("dragged from", darggedFrom);
+    let dropedId = e.target.getAttribute("data-id");
 
-      localStorage.setItem(
-        "not-started-tasks",
-        JSON.stringify(notStartedTasksArray)
-      );
-      localStorage.setItem(
-        "completed-tasks",
-        JSON.stringify(completedTasksArray)
-      );
+    let theBottm = insertAboveTask(completedContainer, e.clientY);
+    completedTasksArray = JSON.parse(localStorage.getItem("completed-tasks"));
+
+    let title = e.dataTransfer.getData("title"); // title of dropped item
+    let id = +e.dataTransfer.getData("id"); // id of droped item
+    let indexOfBottom;
+    let idOfBottm = theBottm ? +theBottm.getAttribute("data-id") : 0;
+    if ((theBottm !== null) & (theBottm !== 0)) {
+      indexOfBottom = completedTasksArray
+        .map((e) => {
+          return +e.id;
+        })
+        .indexOf(idOfBottm);
+    } else {
+      indexOfBottom = completedTasksArray.length;
     }
-  });
+
+    let droppedTask = {
+      id: +id,
+      title: title,
+    };
+
+    completedTasksArray.splice(indexOfBottom, 0, droppedTask); // add the dropped task to the droped container array
+    notStartedTasksArray = notStartedTasksArray.filter(
+      (task) => task.id != droppedTask.id
+    );
+
+    localStorage.setItem(
+      "not-started-tasks",
+      JSON.stringify(notStartedTasksArray)
+    );
+    localStorage.setItem(
+      "completed-tasks",
+      JSON.stringify(completedTasksArray)
+    );
+  }
 });
 
 const insertAboveTask = (container, mouseY) => {
@@ -227,7 +245,7 @@ notStartedContainer.addEventListener("click", (event) => {
   if (event.target.classList.contains("in-delete-btn")) {
     // Remove from array and loclstorag
     deleteTaskOfId(
-      event.target.parentElement.parentElement.getAttribute("data-id")
+      +event.target.parentElement.parentElement.getAttribute("data-id")
     );
 
     // Remove from DOM
@@ -246,7 +264,7 @@ notStartedContainer.addEventListener("click", (event) => {
     input.value = "";
     input.addEventListener("blur", (e) => {
       input.setAttribute("readonly", true);
-      let ID = input.getAttribute("data-id");
+      let ID = +input.getAttribute("data-id");
       notStartedTasksArray.forEach((task) => {
         if (task.id == ID) {
           task.title = input.value;
@@ -257,5 +275,3 @@ notStartedContainer.addEventListener("click", (event) => {
     });
   }
 });
-
-console.log(completedTasksArray);
