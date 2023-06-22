@@ -1,4 +1,7 @@
 # Kanban-Board
+
+Live: https://faysel-abdella.github.io/Kanban-Board/
+
 Hi, this is my second project at 'Al-bunyan al-marsus' programming contest. The task was to build a project managment kanban board that to help visualize work, limit work-in-progress, and maximize efficiency (or flow).
 
 The following core concepts javaScript is used
